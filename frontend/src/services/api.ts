@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User, Customer, Product, StockMovement, Challan, DashboardStats } from '../types';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'https://mini-erp-crm-7lkx.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
