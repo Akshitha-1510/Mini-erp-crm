@@ -1,0 +1,171 @@
+{
+  "info": {
+    "_postman_id": "erp-crm-collection-2026",
+    "name": "Mini ERP + CRM Operations Portal API",
+    "description": "Postman Collection for testing full-stack Mini ERP & CRM API endpoints with JWT RBAC roles.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@erp.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Login (Sales)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sales@erp.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/me", "host": ["{{baseUrl}}"], "path": ["api", "auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers CRM",
+      "item": [
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/customers?search=&status=&type=", "host": ["{{baseUrl}}"], "path": ["api", "customers"] }
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rohan Mehta\",\n  \"mobile\": \"+91 9988776655\",\n  \"email\": \"rohan@mehtasolutions.in\",\n  \"businessName\": \"Mehta Engineering Solutions\",\n  \"gstNumber\": \"24AAACM1122Z9\",\n  \"type\": \"Wholesale\",\n  \"status\": \"Lead\",\n  \"address\": \"GIDC Phase 3, Surat\",\n  \"followUpDate\": \"2026-08-05\",\n  \"notes\": \"Interested in bulk order of valves & pressure gauges.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/customers", "host": ["{{baseUrl}}"], "path": ["api", "customers"] }
+          }
+        },
+        {
+          "name": "Add Follow-up Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Discussed Q3 pricing options over phone call.\",\n  \"newFollowUpDate\": \"2026-08-10\",\n  \"newStatus\": \"Active\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/customers/CUSTOMER_ID/notes", "host": ["{{baseUrl}}"], "path": ["api", "customers", "CUSTOMER_ID", "notes"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products & Stock",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] }
+          }
+        },
+        {
+          "name": "Adjust Stock IN/OUT",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"IN\",\n  \"quantity\": 20,\n  \"reason\": \"Received supplier delivery PO-8891\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products/PRODUCT_ID/adjust-stock", "host": ["{{baseUrl}}"], "path": ["api", "products", "PRODUCT_ID", "adjust-stock"] }
+          }
+        },
+        {
+          "name": "Stock Movements Audit Log",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/products/movements/log", "host": ["{{baseUrl}}"], "path": ["api", "products", "movements", "log"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sales Challans",
+      "item": [
+        {
+          "name": "List Challans",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/challans", "host": ["{{baseUrl}}"], "path": ["api", "challans"] }
+          }
+        },
+        {
+          "name": "Create Sales Challan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"CUSTOMER_ID\",\n  \"status\": \"Confirmed\",\n  \"items\": [\n    { \"productId\": \"PRODUCT_ID_1\", \"quantity\": 2 },\n    { \"productId\": \"PRODUCT_ID_2\", \"quantity\": 5 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/challans", "host": ["{{baseUrl}}"], "path": ["api", "challans"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/dashboard/stats", "host": ["{{baseUrl}}"], "path": ["api", "dashboard", "stats"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "token", "value": "YOUR_JWT_TOKEN_HERE" }
+  ]
+}
